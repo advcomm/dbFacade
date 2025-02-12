@@ -1,0 +1,4 @@
+# Ignore everything by default
+src/
+node_modules/
+package_lock.json

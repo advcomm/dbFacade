@@ -1,0 +1,36 @@
+{
+  "name": "@advcomm/dbfacade",
+  "version": "1.0.1",
+  "description": "Database Facade to easy the use of any database with nodejs like mysql or postgres.",
+  "keywords": [
+    "database",
+    "Facade",
+    "mysql2",
+    "postgres"
+  ],
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "homepage": "https://github.com/advcomm/dbFacade#readme",
+  "bugs": {
+    "url": "https://github.com/advcomm/dbFacade/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/advcomm/dbFacade.git"
+  },
+  "license": "ISC",
+  "author": "dev1@hostingcontroller.com",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "mysql2": "^3.12.0",
+    "postgres": "^3.4.5"
+  }
+}
