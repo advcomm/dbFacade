@@ -32,7 +32,7 @@ jobs:
       - name: Build Package
         run: |
             npm install
-            npm run build
+            npx tsc
 
       - name: Publish Package to npm
         run: npm publish --access public
