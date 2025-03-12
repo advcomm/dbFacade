@@ -30,6 +30,12 @@ export class MysqlDriver {
         return Array.isArray(rows) ? rows[0] : rows;
     }
 
+
+    async ListenToChannel(channel: string, callback: (message: any) => void) {
+        throw new Error("Method not supported.");
+    }
+
+
     async close() {
         await this.pool.end();
     }

@@ -1,9 +1,9 @@
-import postgres from "postgres";
+import { Pool, QueryResult } from 'pg';
 
 export class PostgresDriver {
-    private sql: any;
+    private sql: Pool;
     constructor(config:any) {
-        this.sql = postgres({
+        this.sql = new Pool({
             host: config.host,
             user: config.user,
             password: config.password,
@@ -15,22 +15,30 @@ export class PostgresDriver {
 
     async connect() {
         try {
-            const res = await this.sql`select 1+1 As Result`;
-            console.log(res);
+            const res = await this.sql.query(`select 1+1 As Result`);
+            console.log(res.rows);
         } catch (error) {
             throw error;
         }    
     }
 
-    async callProcedure(name: string, params = [], isFunction = false) {
+    async callProcedure(name: string, params: any[] = [], isFunction = false) {
         if (!isFunction) {
-            // Stored Procedure: CALL syntax
-            await this.sql`CALL ${this.sql(name)}(${this.sql(params)})`;
-            return { success: true }; // Procedures return no result set
+                const result= await this.sql.query(`CALL ${name}(${params.map((_, i) => `$${i + 1}`).join(', ')})`, params);
+                return result.rows;
         } else {
             // Stored Function: SELECT * FROM syntax
-            return await this.sql`SELECT * FROM ${this.sql(name)}(${this.sql(params)})`;
+            const result= await this.sql.query(`SELECT * FROM ${name}(${params.map((_, i) => `$${i + 1}`).join(', ')})`, params);
+            return result.rows; 
         }
+    }
+
+    async ListenToChannel(channel: string, callback: (message: any) => void) {
+        const client = await this.sql.connect();
+        await client.query(`LISTEN ${channel}`);
+        client.on("notification", async (message: any) => {
+            callback(message);
+        });
     }
 
     async close() {
